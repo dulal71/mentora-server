@@ -23,9 +23,15 @@ async function run() {
     await client.connect();
 const db=client.db("mentoradb")
 const coursesCollection =db.collection('courses') 
-
+// get all data
     app.get('/courses',async(req,res)=>{
       const cursor = coursesCollection.find()
+      const result =await cursor.toArray()
+   res.send(result)
+    })
+ // get featured data
+    app.get('/featured',async(req,res)=>{
+      const cursor = coursesCollection.find().limit(4)
       const result =await cursor.toArray()
    res.send(result)
     })
