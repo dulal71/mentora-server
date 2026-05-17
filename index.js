@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express')
 const dotenv = require('dotenv')
 const cors = require('cors')
@@ -34,6 +34,18 @@ const coursesCollection =db.collection('courses')
       const cursor = coursesCollection.find().limit(4)
       const result =await cursor.toArray()
    res.send(result)
+    })
+
+    //get data by id
+    app.get('/courses/:id',async(req,res)=>{
+      const id = req.params.id;
+      console.log(id);
+      const query = {
+        _id: new ObjectId(id)
+      }
+     
+      const result = await coursesCollection.findOne(query)
+    res.send(result)
     })
     
     await client.db("admin").command({ ping: 1 });
